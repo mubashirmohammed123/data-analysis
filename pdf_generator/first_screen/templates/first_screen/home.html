@@ -1,28 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Analyser</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            color: #000000;
-            text-align: center;
-            margin-top: 60px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super-Market Data Analysis</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:linear-gradient(135deg,#eef2f3,#d9e2ec);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* layout */
+.container-wrapper{
+    display:flex;
+    gap:30px;
+    align-items:flex-start;
+}
+
+/* main card */
+.container{
+    background:#fff;
+    width:420px;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+h1{
+    color:#2c3e50;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#7f8c8d;
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+input[type="file"]{
+    width:100%;
+    padding:12px;
+    border:2px dashed #bdc3c7;
+    border-radius:8px;
+    margin-bottom:20px;
+    cursor:pointer;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.upload-btn{
+    background:#3498db;
+    color:#fff;
+}
+
+.upload-btn:hover{
+    background:#2980b9;
+}
+
+.pdf-button{
+    margin-top:20px;
+    background:#e74c3c;
+    color:#fff;
+}
+
+.pdf-button:hover{
+    background:#c0392b;
+}
+
+/* rules box */
+.rules-box{
+    background:#ffffff;
+    width:320px;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    font-size:14px;
+}
+
+.rules-box h3{
+    color:#2c3e50;
+    margin-bottom:15px;
+}
+
+.rules-box ul{
+    padding-left:18px;
+}
+
+.rules-box li{
+    margin-bottom:8px;
+    color:#34495e;
+}
+
+.rules-box ul ul{
+    margin-top:6px;
+}
+</style>
 </head>
+
 <body>
-    <div>
-        <div>
-            <h1>Report Creator</h1>
-        </div>
+
+<div class="container-wrapper">
+
+    <div class="container">
+        <h1>Report Creator</h1>
+        <p class="subtitle">Upload CSV and generate PDF report</p>
+
+        <form method="POST" enctype="multipart/form-data" action="{% url 'upload_view' %}">
+            {% csrf_token %}
+            <input type="file" name="csv_file_input" required>
+            <button type="submit" class="upload-btn">📊 Upload & Analyze</button>
+        </form>
+
+        {% if row_count %}
+        <a href="{% url 'generate_pdf' %}">
+            <button class="pdf-button">📄 Download PDF Report</button>
+        </a>
+        {% endif %}
     </div>
-</body>
-</html>
+
+    <div class="rules-box">
+        <h3>📌 CSV Rules</h3>
+        <ul>
+            <li>File must be <b>.csv</b></li>
+            <li>No symbols: <b>$ ₹ & : ;</b></li>
+            <li>Exactly <b>7 columns</b></li>
+            <li>Column order:
+                <ul>
+                    <li>customer_id</li>
+                    <li>cashier_id (1–6)</li>
+                    <li>product_type</li>
+                    <li>time (24h format)</li>
+                    <li>day (Sunday–Saturday)</li>
+                    <li>price (numbers only)</li>
+                    <li>payment_type (UPI / CARD / CASH)</li>
+                </ul>
+            </li>
+            <li>Unlimited rows supported</li>
+        </ul>
+    </div>
+</div>

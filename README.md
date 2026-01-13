@@ -34,13 +34,7 @@ REQUIRED COLUMNS (ORDER MATTERS)
 7. payment_type (UPI / CARD / CASH)
 
 
-SAMPLE CSV FORMAT
------------------
-customer_id,cashier_id,product_type,time,day,price,payment_type
-C001,1,Food,14:30,Monday,250,CASH
-C002,3,Fashion,18:45,Wednesday,1200,CARD
-C003,2,Grocery,09:15,Sunday,540,UPI
-C004,5,Electronics,20:10,Friday,3500,CARD
+
 
 
 TECH STACK
